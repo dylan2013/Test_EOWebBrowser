@@ -1,4 +1,5 @@
 ﻿
+using EO.WebBrowser;
 using EO.WebBrowser.DOM;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Open_TestWindowsForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            FileInfo projectDllURL = new FileInfo(Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", ""));
+            FileInfo projectDllURL = new FileInfo(Assembly.GetExecutingAssembly().Location);
             //取得html 相對路徑
             string htmlRelativeURL = Path.Combine(projectDllURL.DirectoryName, "Redactor\\index.html");
 
@@ -35,14 +36,22 @@ namespace Open_TestWindowsForm
 
         }
 
-        TaskScheduler ts { get; set; }
 
         private void button1_Click(object sender, EventArgs e)
         {
 
+            //取得資料方式(一)
+            //获取js执行的返回值，注意js执行会报错，需要进行异常处理。
+            //string script = "document.getElementById('content').value";
+            //string info = "" + webView1.EvalScript(script);
+
+            //取得資料方式(二)
+            JSObject window = webView1.GetDOMWindow();
+            Console.WriteLine(window.InvokeFunction("getData", new object[] { }));
+
 
 
         }
-        
+
     }
 }
